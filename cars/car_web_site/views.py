@@ -6,7 +6,7 @@ from .permissions import IsOwerOrReadOnlyAuthenticated, IsAdminOrOwerOrReadOnlyA
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # class CarViewSet(viewsets.ModelViewSet):
 #     # queryset = Car.objects.all()
@@ -26,14 +26,11 @@ from rest_framework.authentication import TokenAuthentication
 
 
 class CarAPIList(generics.ListCreateAPIView):
-    # queryset = Car.objects.all()
+    queryset = Car.objects.all()
     serializer_class = CarSerializer
     permission_classes = (IsAuthenticated,)
+    # authentication_classes = (JWTAuthentication,)
 
-    def get_queryset(self):
-        """car_list of active user"""
-        owner = self.request.user
-        return Car.objects.filter(owner=owner)
 
 
 class CarAPIUpdate(generics.RetrieveUpdateAPIView):
@@ -70,7 +67,6 @@ class RegisterUserView(generics.CreateAPIView):
         else:
             data=serializer.errors
             return Response(data)
-
 
 
 

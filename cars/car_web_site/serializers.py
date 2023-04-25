@@ -14,9 +14,9 @@ class CarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Car
-        fields = ["country", "car_brand", "car_model", "car_status", "car_year_of_issue", "car_condition", "car_color",
-                  "car_price", "slug", 'owner']
-        # fields = '__all__'
+        # fields = ["country", "car_brand", "car_model", "car_status", "car_year_of_issue", "car_condition", "car_color",
+        #           "car_price", "slug", 'owner']
+        fields = '__all__'
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):

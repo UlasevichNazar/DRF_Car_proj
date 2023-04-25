@@ -3,12 +3,14 @@ from car_web_site.models import Car, NewUser
 from django.utils.safestring import mark_safe
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
-
-
+from import_export.admin import ImportExportActionModelAdmin
+from import_export import resources
+from import_export import fields
+from import_export.widgets import ForeignKeyWidget
 
 
 class CarAdminForm(forms.ModelForm):
-    owner_comments = forms.CharField(label="Описание",widget=CKEditorUploadingWidget())
+    owner_comments = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Car
@@ -19,7 +21,8 @@ class CarModelInline(admin.TabularInline):
     """display of the car at its owner"""
     model = Car
     extra = 0
-    readonly_fields = ("get_photo",)
+
+    # readonly_fields = ("get_photo",)
 
     def get_photo(self, obj):
         """get photo by url"""
@@ -36,22 +39,30 @@ def make_unpublished(modeladmin, request, queryset):
 make_unpublished.short_description = "Отменить публикацию"
 
 
+class CarResources(resources.ModelResource):
+    owner = fields.Field(column_name='owner', attribute='owner', widget=ForeignKeyWidget(NewUser, 'username'))
+    class Meta:
+        model = Car
+
+
 @admin.register(Car)
-class CarAdmin(admin.ModelAdmin):
+class CarAdmin(ImportExportActionModelAdmin):
+    resource_class = CarResources
     list_display = (
-        "id", "car_brand", "car_model", "car_price", "country", "get_photo", "time_create", "is_published", "owner")
+        "id", "car_brand", "car_model", "car_price", "country", "time_create", "is_published", "owner")
     list_display_links = ("id",)
     list_editable = ('is_published',)
     list_filter = ('is_published', 'time_create', 'country', "car_brand")
     prepopulated_fields = {"slug": ("car_brand", "car_model")}
     search_fields = ("car_brand", "country")
-    readonly_fields = ("get_photo", "time_create")
+    readonly_fields = ("time_create",)
     actions = [make_unpublished]
     form = CarAdminForm
-    def get_photo(self, obj):
-        return mark_safe(f'<img src={obj.photo.url} width="100" height="60"')
 
-    get_photo.short_description = "Фотография"
+    # def get_photo(self, obj):
+    #     return mark_safe(f'<img src={obj.photo.url} width="100" height="60"')
+
+    # get_photo.short_description = "Фотография"
 
     fieldsets = (
         ("Страна", {
@@ -87,9 +98,9 @@ class CarAdmin(admin.ModelAdmin):
         (None, {
             "fields": (("owner_comments",),)
         }),
-        (None, {
-            "fields": (("photo", "get_photo"),)
-        }),
+        # (None, {
+        #     "fields": (("photo", "get_photo"),)
+        # }),
         ("Цена", {
             "fields": (("car_price",),)
         }),
@@ -153,6 +164,8 @@ class NewUserAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+
 from django.contrib import admin
 
 # Register your models here.
