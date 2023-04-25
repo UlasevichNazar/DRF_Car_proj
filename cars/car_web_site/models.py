@@ -32,7 +32,7 @@ class Car(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     car_price = models.FloatField(blank=False, verbose_name='Цена')
     owner_comments = models.TextField(blank=False, default="It's my comment", verbose_name='Коментарии продавца')
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name="Фотография", blank=True, default="images.png")
+    # photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name="Фотография", blank=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     is_published = models.BooleanField(default=True, verbose_name="Опубликовано")
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Владелец")
