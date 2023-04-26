@@ -14,7 +14,7 @@ import datetime
 from pathlib import Path
 import django
 from datetime import timedelta
-
+import smtplib as smtp
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework_simplejwt',
     'import_export',
+    'drf_yasg',
     'car_web_site',
 
 ]
@@ -156,6 +157,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 2
 
 }
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = "ulnazar51@gmail.com"
+EMAIL_HOST_PASSWORD = 'voukchnbbkpmsitd'
+EMAIL_PORT = 587
 
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}',
