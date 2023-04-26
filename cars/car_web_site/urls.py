@@ -22,6 +22,7 @@ urlpatterns = [
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     # path('', include(router.urls)),
     path('register/', views.RegisterUserView.as_view()),
+    path('download/', views.DownloadDataBase.as_view())
 
 
 ]
