@@ -1,5 +1,5 @@
 from django.contrib import admin
-from car_web_site.models import Car, NewUser
+from .models import Car, NewUser
 from django.utils.safestring import mark_safe
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget

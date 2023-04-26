@@ -1,12 +1,15 @@
 from .models import Car, NewUser
 from .serializers import CarSerializer, UserRegisterSerializer
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .permissions import IsOwerOrReadOnlyAuthenticated, IsAdminOrOwerOrReadOnlyAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .resources import CarResources
+from django.http import HttpResponse
+
 
 # class CarViewSet(viewsets.ModelViewSet):
 #     # queryset = Car.objects.all()
@@ -30,7 +33,6 @@ class CarAPIList(generics.ListCreateAPIView):
     serializer_class = CarSerializer
     permission_classes = (IsAuthenticated,)
     # authentication_classes = (JWTAuthentication,)
-
 
 
 class CarAPIUpdate(generics.RetrieveUpdateAPIView):
@@ -65,9 +67,17 @@ class RegisterUserView(generics.CreateAPIView):
             data['response'] = True
             return Response
         else:
-            data=serializer.errors
+            data = serializer.errors
             return Response(data)
 
+
+class DownloadDataBase(APIView):
+    def get(self, request):
+        car_resource = CarResources()
+        dataset = car_resource.export()
+        response = HttpResponse(dataset.xls)
+        response['Content-Disposition'] = 'attachment; filename="cars.xls"'
+        return response
 
 
 
