@@ -14,7 +14,7 @@ urlpatterns = [
     path('cars/update/<int:pk>', views.CarAPIUpdate.as_view()),
     path('cars/destroy/<int:pk>', views.CarAPIDestroy.as_view()),
     path('cars/details/<int:pk>', views.CarAPIDetailView.as_view()),
-    path('cars/auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls.jwt')),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
