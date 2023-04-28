@@ -1,5 +1,4 @@
 .idea
 venv
-
-
 /cars/static/
+/cars/.env
