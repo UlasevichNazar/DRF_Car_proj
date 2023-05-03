@@ -25,6 +25,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('api/v1/', include('car_web_site.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 urlpatterns += doc_urls
 if settings.DEBUG:
