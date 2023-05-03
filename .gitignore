@@ -1,12 +1,3 @@
 .idea
 venv
 
-/cars/.env
-/cars/static/
-cars/static/
-/cars/static/admin/
-/cars/static/ckeditor/
-/cars/static/debug_toolbar/
-/cars/static/drf-yasg/
-/cars/static/import_export/
-/cars/static/rest_framework/
